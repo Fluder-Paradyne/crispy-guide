@@ -1,0 +1,3 @@
+[submodule "app-config"]
+	path = app-config
+	url = git@github.com:Fluder-Paradyne/sample-node-app-config.git
