@@ -51,7 +51,7 @@ Open http://localhost:8080
 kubectl port-forward -n argocd svc/argo-cd-argocd-server 8081s:80
 ```
 
-Open https://localhost:8080 (accept self-signed cert). Username: `admin`
+Open https://localhost:8081 (accept self-signed cert). Username: `admin`
 
 Get ArgoCD admin password:
 
