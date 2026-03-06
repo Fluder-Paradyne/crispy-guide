@@ -61,4 +61,4 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 Notes:
 
-dont use this in production, has a lot of hacks to make it work in local with kind
+Dont use this in production, has a lot of hacks to make it work in local with kind
