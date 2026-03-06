@@ -62,11 +62,11 @@ All manifests are Helm templates in `app-config/sample-node-app/templates/`. Val
 
 Pipeline runs on Jenkins agents with `docker` label (DinD). Stages:
 
-1. **Checkout** – Clone app repo (sample-node-project) into `app/`
+1. **Checkout** – Clone app repo ([sample-node-project](https://github.com/Fluder-Paradyne/sample-node-project)) into `app/`
 2. **Build** – `npm ci` in node container
 3. **Test** – `npx jest --ci --passWithNoTests --forceExit`
 4. **Build Image** – Docker build, tag with `BUILD_NUMBER` and `latest`
-5. **Push to Registry** – Push to in-cluster registry
+5. **Push to Registry** – Push to in-cluster registry (in real world it would probably be ECR or some command docker registry)
 6. **Deploy to Staging** – Update `values-staging.yaml` tag, commit and push to app-config repo; ArgoCD auto-syncs
 7. **Manual Approval** – `input` step gates production
 8. **Deploy to Production** – Update `values-prod.yaml` tag, commit and push; ArgoCD syncs
