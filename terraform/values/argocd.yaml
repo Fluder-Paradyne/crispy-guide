@@ -1,0 +1,23 @@
+# ArgoCD values for local kind cluster (simplified, no SSO)
+server:
+  service:
+    type: NodePort
+    nodePortHttp: 30081
+    nodePortHttps: 30444
+  extraArgs:
+    - --insecure
+  ingress:
+    enabled: false
+configs:
+  params:
+    server.insecure: "true"
+repoServer:
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+applicationSet:
+  enabled: false

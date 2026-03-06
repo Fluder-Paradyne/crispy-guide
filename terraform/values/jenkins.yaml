@@ -1,0 +1,141 @@
+controller:
+  runAsUser: 0
+  fsGroup: 0
+  containerSecurityContext:
+    runAsUser: 0
+    runAsGroup: 0
+    readOnlyRootFilesystem: false
+  javaOpts: "-Djenkins.install.runSetupWizard=false"
+  image:
+    repository: "jenkins/jenkins"
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1024Mi"
+    limits:
+      cpu: "2000m"
+      memory: "2048Mi"
+  installPlugins:
+    - kubernetes
+    - workflow-aggregator
+    - git
+    - docker-workflow
+    - pipeline-stage-view
+    - configuration-as-code
+    - job-dsl
+  serviceType: NodePort
+  nodePort: ${jenkins_node_port}
+  jenkinsUrl: "http://localhost:8080"
+  ingress:
+    enabled: false
+  additionalExistingSecrets: []
+  JCasC:
+    defaultConfig: true
+    configScripts:
+%{if has_github_creds}
+      credentials: |
+        credentials:
+          system:
+            domainCredentials:
+            - credentials:
+              - usernamePassword:
+                  id: "github-app-config"
+                  password: "${github_password}"
+                  scope: GLOBAL
+                  username: "${github_username}"
+%{endif}
+      jobs: |
+        jobs:
+          - script: |
+              pipelineJob('sample-node-app') {
+                definition {
+                  cpsScm {
+                    scm {
+                      git {
+                        remote {
+                          url('${app_config_repo}')
+                        }
+                        branches('*/main')
+                      }
+                    }
+                    scriptPath('Jenkinsfile')
+                  }
+                }
+              }
+agent:
+  enabled: true
+  customJenkinsLabels:
+    - docker
+  yamlTemplate: |-
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      labels:
+        jenkins/label: docker
+    spec:
+      containers:
+      - name: docker-daemon
+        image: docker:24-dind
+        args:
+        - --insecure-registry=registry.registry.svc.cluster.local:5000
+        securityContext:
+          privileged: true
+        env:
+        - name: DOCKER_TLS_CERTDIR
+          value: ""
+        volumeMounts:
+        - name: docker-socket
+          mountPath: /var/run
+        resources:
+          requests:
+            cpu: 256m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+      - name: docker
+        image: docker:24
+        command: ["cat"]
+        tty: true
+        env:
+        - name: DOCKER_HOST
+          value: tcp://localhost:2375
+        volumeMounts:
+        - name: docker-socket
+          mountPath: /var/run
+        resources:
+          requests:
+            cpu: 128m
+            memory: 256Mi
+          limits:
+            cpu: 512m
+            memory: 512Mi
+      - name: node
+        image: node:20
+        command: ["cat"]
+        tty: true
+        resources:
+          requests:
+            cpu: 128m
+            memory: 256Mi
+          limits:
+            cpu: 512m
+            memory: 512Mi
+      - name: jnlp
+        image: jenkins/inbound-agent:latest
+        args: ["$(JENKINS_SECRET)", "$(JENKINS_AGENT_NAME)", "$(JENKINS_AGENT_WORK_DIR)", "$(JENKINS_URL)"]
+        resources:
+          requests:
+            cpu: 128m
+            memory: 256Mi
+          limits:
+            cpu: 512m
+            memory: 512Mi
+      volumes:
+      - name: docker-socket
+        emptyDir: {}
+  connectTimeout: 100
+  readTimeout: 100
+persistence:
+  enabled: true
+  size: 8Gi
