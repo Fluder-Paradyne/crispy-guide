@@ -1,4 +1,4 @@
-# Virallens Generative AI Service - Architecture
+#Generative AI Service - Architecture
 
 Infrastructure design, Kubernetes deployment, and incident response for a document-processing GenAI service.
 
@@ -8,9 +8,9 @@ Infrastructure design, Kubernetes deployment, and incident response for a docume
 
 | Part | Directory | Contents |
 |------|-----------|----------|
-| **A** | `part-a/` | Architecture diagram (Python + images), infrastructure write-up template |
-| **B** | `part-b/` | Explanation template; `terraform/` and `app-config/` contain the working configs |
-| **C** | `part-c/` | Incident response template |
+| **A** | `part-a/` | Architecture diagram (Python + images), infrastructure write-up |
+| **B** | `part-b/` | Explanation; `terraform/` and `app-config/` contain the working configs |
+| **C** | `part-c/` | Incident response |
 
 ---
 
