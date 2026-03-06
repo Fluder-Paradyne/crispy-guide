@@ -48,7 +48,7 @@ Open http://localhost:8080
 **ArgoCD** (NodePort 30081 or port-forward):
 
 ```shell
-kubectl port-forward -n argocd svc/argo-cd-argocd-server 8081s:80
+kubectl port-forward -n argocd svc/argo-cd-argocd-server 8081:80
 ```
 
 Open https://localhost:8081 (accept self-signed cert). Username: `admin`
