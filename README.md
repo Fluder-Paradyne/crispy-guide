@@ -20,7 +20,7 @@ Infrastructure design, Kubernetes deployment, and incident response for a docume
 - `part-a/architecture_sync.png`, `part-a/architecture_async.png` - Output images
 - `part-a/WRITEUP.md` - Fill in: cloud services, networking, scaling, cost, monitoring
 
-Regenerate diagrams: `cd part-a && source ../.venv/bin/activate && python architecture.py`
+Regenerate diagrams: `cd part-a && pip install -r requirements.txt && python architecture.py` (see part-a/WRITEUP.md for setup)
 
 ---
 

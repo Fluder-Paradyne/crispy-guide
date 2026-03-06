@@ -55,4 +55,24 @@ Virallens Generative AI service - cloud infrastructure design (1-2 pages).
 - `architecture_sync.png` - Synchronous request flow
 - `architecture_async.png` - Async producer/consumer flow
 
-Regenerate diagrams: `cd part-a && source ../.venv/bin/activate && python architecture.py`
+## Setup (diagram generation)
+
+**System dependency:** Install Graphviz (required by diagrams):
+
+```shell
+# macOS
+brew install graphviz
+
+# Ubuntu/Debian
+sudo apt install graphviz
+```
+
+**Python dependencies:**
+
+```shell
+# uv
+uv venv && source .venv/bin/activate
+uv pip install -r requirements.txts
+```
+
+Regenerate diagrams: `cd part-a && source .venv/bin/activate && python architecture.py`
