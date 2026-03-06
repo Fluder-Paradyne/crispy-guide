@@ -73,6 +73,12 @@ Pipeline runs on Jenkins agents with `docker` label (DinD). Stages:
 
 Git push uses `github-app-config` credentials (username/password) for the app-config repo.
 
+![Jenkins pipeline - Manual Approval stage (Deploy to production? prompt)](../img/pipeline%20asking%20for%20apporval.png)
+
+![Jenkins pipeline - aborted before production (Manual Approval not promoted)](../img/pipeline%20which%20is%20not%20promoted.png)
+
+![Jenkins pipeline - successful run with production promotion](../img/successful%20run%20with%20production%20promotion.png)
+
 ### ArgoCD Applications
 
 **Path:** `app-config/argocd-applications/`
@@ -83,6 +89,12 @@ Git push uses `github-app-config` credentials (username/password) for the app-co
 | sample-node-production | values-prod.yaml | Manual sync (no automated block) |
 
 Both deploy the same Helm chart from `sample-node-app/` to namespace `sample-node-app`. Staging auto-syncs on git push; production syncs after Jenkins pushes the updated tag and an operator triggers sync (or uses automated sync if configured).
+
+![ArgoCD dashboard - staging and production apps](../img/working%20argocd.png)
+
+![ArgoCD - staging deployed](../img/staging-argocd-deployed.png)
+
+![ArgoCD - production promoted](../img/promoted-production.png)
 
 ---
 
